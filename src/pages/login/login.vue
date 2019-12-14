@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="loginBtnWrap">
-                    <button class="loginBtn">登录</button>
+                    <button class="loginBtn" @click="login">登录</button>
                 </div>
             </div>
             <div class="loginBackground2" :style="loginBackground2">
@@ -50,7 +50,7 @@
 
 <script>
     import VueResource from 'vue-resource'
-    import ajax from '../../api/common/common'
+    import {reqLogin} from '../../api/common/index'
 
     export default{
         data() {
@@ -71,13 +71,14 @@
         },
         mounted() {
             console.log(this.username, this.password, this.company)
-            ajax('abc')
-//            CommonJS('abc', {a: 'a'})
-//            this.$http.get(url).then((response) => {
-//
-//            }, (response) => {
-//
-//            })
+        },
+        methods: {
+            async login() {
+                console.log('点击登录了')
+                let loginInfo = await reqLogin(null)
+                console.log(loginInfo)
+            }
+
         }
     }
 </script>
