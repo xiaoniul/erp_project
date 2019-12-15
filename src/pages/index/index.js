@@ -3,7 +3,7 @@
  */
 
 import Vue from 'vue'
-import Index from './index.vue'
+import Index from './Index.vue'
 
 import '../../../static/css/common/reset.css'
 
