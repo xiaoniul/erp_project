@@ -1,6 +1,12 @@
 <template>
     <div class="wrap clearfix">
+
         <div class="infoWrap">
+            <ul class="option">
+                <li class="register">注册</li>
+                <li class="delete">删除</li>
+            </ul>
+
             <div class="companyInfoWrap">
             <p class="companyTitle">请输入要注册的公司信息</p>
             <div class="companyInfo">
@@ -107,6 +113,38 @@
         background: #CDE5F1;
     }
 
+    .option{
+        width: 500px;
+        height: 25px;
+        text-align: center;
+        line-height: 25px;
+        margin: auto;
+        border-bottom: 1px solid black;
+    }
+
+    .option > li{
+        float: left;
+        width: 50%;
+        height: 100%;
+        box-sizing: border-box;
+        font: bold 20px/25px "楷体";
+        cursor: pointer;
+        background: #39B5B5;
+        color: white;
+    }
+
+    .option > li:hover{
+        background: #188484;
+    }
+
+    .option > li:active{
+        background: #084A4A;
+    }
+
+    .option > li:first-child{
+        border-right: 1px solid black;
+    }
+
     .infoWrap{
         position: absolute;
         left: 0;
@@ -115,13 +153,15 @@
         bottom: 0;
         margin: auto;
         width: 500px;
-        height: 580px;
+        height: 615px;
+        border: 1px solid black;
     }
 
     .companyInfoWrap{
         width: 500px;
         height: 340px;
         margin: auto;
+        margin-top: 10px;
     }
 
     .adminInfoWrap{
