@@ -1,6 +1,7 @@
 <template>
     <div class="wrap clearfix">
-        <div class="companyInfoWrap">
+        <div class="infoWrap">
+            <div class="companyInfoWrap">
             <p class="companyTitle">请输入要注册的公司信息</p>
             <div class="companyInfo">
                 <p>
@@ -51,7 +52,7 @@
             </div>
         </div>
 
-        <div class="adminInfoWrap">
+            <div class="adminInfoWrap">
             <p class="adminTitle">请输入管理员信息</p>
             <div class="adminInfo">
                 <p>
@@ -71,6 +72,7 @@
                     <button class="submitBtn">提交</button>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </template>
@@ -103,6 +105,17 @@
         width: 100%;
         height: 100%;
         background: #CDE5F1;
+    }
+
+    .infoWrap{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
     }
 
     .companyInfoWrap{
