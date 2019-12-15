@@ -17,15 +17,15 @@
                     <p class="tag" v-if="isError">用户名、密码或公司名称输入有误</p>
                     <div class="loginInfo" :class="tipClass">
                         <div class="loginInfoOption">
-                            <span class="loginInfoDesc">用户名<i></i></span>:
+                            <span class="loginInfoDesc">用户名<i></i></span><span class="colon">:</span>
                             <input v-model="username" class="loginInfoValue" type="text" placeholder="请输入用户名" autocomplete="off"/>
                         </div>
                         <div class="loginInfoOption">
-                            <span class="loginInfoDesc">密码<i></i></span>:
+                            <span class="loginInfoDesc">密码<i></i></span><span class="colon">:</span>
                             <input v-model="password" class="loginInfoValue" type="password" placeholder="请输入密码" autocomplete="off"/>
                         </div>
                         <div class="loginInfoOption">
-                            <span class="loginInfoDesc">公司名称<i></i></span>:
+                            <span class="loginInfoDesc">公司名称<i></i></span><span class="colon">:</span>
                             <select v-model="companyValue" class="loginInfoValueSelect">
                                 <!--<option>请选择</option>-->
                                 <!--<option>深圳市达博威科技有限公司</option>-->
@@ -63,14 +63,14 @@
         data() {
             return {
                 loginBackground1: {
-                    backgroundImage: "url(" + require("../../../assets/loginBackground1.png") + ")",
+                    backgroundImage: "url(" + require("./images/loginBackground1.png") + ")",
                     backgroundRepeat: "repeat-x"
                 },
                 loginBackground2: {
-                    backgroundImage: "url(" + require("../../../assets/loginBackground2.png") + ")",
+                    backgroundImage: "url(" + require("./images/loginBackground2.png") + ")",
                     backgroundRepeat: "repeat-x"
                 },
-                logo: require("../../../assets/logo.png"),
+                logo: require("./images/logo.png"),
                 username: '',
                 password: '',
                 companyValue: '请选择',
@@ -215,6 +215,12 @@
         width: 100%;
         height: 0;
         background: red;
+    }
+
+    .colon{
+        display: inline-block;
+        font: 13px/13px '楷体';
+        vertical-align: middle;
     }
 
     .loginInfoValue{
