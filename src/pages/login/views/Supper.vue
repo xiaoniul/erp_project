@@ -108,21 +108,20 @@
     }
 
     .infoWrap{
-        width: 100%;
-        height: 100%;
         position: absolute;
         left: 0;
         right: 0;
         top: 0;
         bottom: 0;
         margin: auto;
+        width: 500px;
+        height: 625px;
     }
 
     .companyInfoWrap{
         width: 500px;
         height: 340px;
         margin: auto;
-        margin-top: 30px;
     }
 
     .adminInfoWrap{
