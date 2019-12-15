@@ -115,7 +115,7 @@
         bottom: 0;
         margin: auto;
         width: 500px;
-        height: 625px;
+        height: 580px;
     }
 
     .companyInfoWrap{
