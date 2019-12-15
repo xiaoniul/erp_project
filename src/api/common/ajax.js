@@ -3,6 +3,8 @@
  返回值: promise对象(异步返回的数据是: response.data)
  */
 import axios from 'axios'
+import qs from 'qs'
+import Vue from 'vue'
 export default function ajax (url, data={}, type='GET') {
 
   return new Promise(function (resolve, reject) {
@@ -22,10 +24,16 @@ export default function ajax (url, data={}, type='GET') {
       promise = axios.get(url)
     } else {
       // 发送post请求
+      // data = new FormData()
+      // data.append()
+      data = qs.stringify(data)
       promise = axios.post(url, data)
     }
     promise.then(function (response) {
       // 成功了调用resolve()
+      if(response.data.token && response.data.token != ''){
+          Vue.prototype.GLOBAL.token = response.data.token
+      }
       resolve(response.data)
     }).catch(function (error) {
       //失败了调用reject()

@@ -14,8 +14,8 @@
             <div class="loginContentArea clearfix">
                 <div class="loginBackground1 clearfix" :style="loginBackground1">
                     <p class="companyName">新页生产ERP</p>
-                    <p class="tag">用户名、密码或公司名称输入有误</p>
-                    <div class="loginInfo">
+                    <p class="tag" v-if="isError">用户名、密码或公司名称输入有误</p>
+                    <div class="loginInfo" :class="tipClass">
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">用户名<i></i></span>:
                             <input v-model="username" class="loginInfoValue" type="text" placeholder="请输入用户名" autocomplete="off"/>
@@ -26,11 +26,14 @@
                         </div>
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">公司名称<i></i></span>:
-                            <select v-model="company" class="loginInfoValueSelect">
-                                <option>请选择</option>
-                                <option>深圳市达博威科技有限公司</option>
-                                <option>深圳市德科信息科技有限公司</option>
-                                <option>深圳市软通动力科技有限公司</option>
+                            <select v-model="companyValue" class="loginInfoValueSelect">
+                                <!--<option>请选择</option>-->
+                                <!--<option>深圳市达博威科技有限公司</option>-->
+                                <!--<option>深圳市德科信息科技有限公司</option>-->
+                                <!--<option>深圳市软通动力科技有限公司</option>-->
+                                <option v-for="(company, index) in companys" :key="index">
+                                    {{company.companyName}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -51,8 +54,10 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     import VueResource from 'vue-resource'
-    import {reqLogin} from '../../../api/common/index'
+    import common from '../../../api/common/common'
+    import {reqGetCompanyInfo, reqLogin} from '../../../api/common/index'
 
     export default{
         data() {
@@ -68,19 +73,39 @@
                 logo: require("../../../assets/logo.png"),
                 username: '',
                 password: '',
-                company: ''
+                companyValue: '请选择',
+                companys: [{companyName: '请选择'}],
+                isError: false,
+                tipClass: 'tipClass'
             }
         },
         mounted() {
-            console.log(this.username, this.password, this.company)
+            reqGetCompanyInfo()
+                    .then((response) => {
+                        if(response.statusCode === common.ok){
+                            //数组的concat用于将两个数据合并, 此方法不会影响原数组
+                            this.companys = this.companys.concat(response.data)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+        },
+        computed: {
+            ...mapState(['name', 'token'])
         },
         methods: {
             async login() {
-                console.log('点击登录了')
-                let loginInfo = await reqLogin(null)
-                console.log(loginInfo)
+                let userInfo = {username: this.username, password: this.password}
+                let respUserInfo = await reqLogin(userInfo)
+                if(respUserInfo.statusCode == common.ok){
+                    this.$store.dispatch('setUserName', this.username)
+                    this.$router.push('/supper')
+                } else if(respUserInfo.statusCode == common.err) {
+                    this.isError = true
+                    this.tipClass = ''
+                }
             }
-
         }
     }
 </script>
@@ -164,6 +189,10 @@
         padding-left: 65px;
         box-sizing: border-box;
         /*padding-top: 18px;*/
+    }
+
+    .tipClass{
+        margin-top: 19px;
     }
 
     .loginInfoOption{
