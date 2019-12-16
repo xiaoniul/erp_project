@@ -112,7 +112,7 @@
         height: 25px;
         border: none;
         border-radius: 5px;
-        background: dimgray;
+        background: #107384;
         outline: none;
         font: bold 20px 楷体;
         cursor: pointer;
@@ -122,6 +122,15 @@
         display: block;
         margin-top: 20px;
     }
+
+    .searchBtn:hover{
+        background: dimgray;
+    }
+
+    .searchBtn:active{
+        background: #003131;
+    }
+
 
     .searchValue::-webkit-scrollbar {
         width: 4px;

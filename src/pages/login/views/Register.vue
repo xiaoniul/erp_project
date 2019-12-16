@@ -228,7 +228,7 @@
         height: 25px;
         border: none;
         border-radius: 5px;
-        background: dimgray;
+        background: #107384;
         outline: none;
         font: bold 20px 楷体;
         cursor: pointer;
@@ -237,7 +237,7 @@
     }
 
     .submitBtn:hover{
-        background: #107384;
+        background: dimgray;
     }
 
     .submitBtn:active{
