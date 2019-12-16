@@ -3,14 +3,10 @@
         <p class="searchDesc">请输入删除的公司名称</p>
         <div class="valueWrap clearfix">
             <input class="searchCompanyValue" type="text" placeholder="请输入公司名称" v-model="value"/>
-            <ul class="searchValue" v-if="">
-                <li class="searchValueOption">你好</li>
-                <li class="searchValueOption">阿里巴巴</li>
-                <li class="searchValueOption">阿里巴巴</li>
-                <li class="searchValueOption">阿里巴巴</li>
-                <li class="searchValueOption">阿里巴巴</li>
-                <li class="searchValueOption">阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴</li>
-                <li class="searchValueOption">阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴阿里巴巴</li>
+            <ul class="searchValue" v-if="showCompanyName.length > 0">
+                <li class="searchValueOption" v-for="(name, index) in showCompanyName" @click="inputValue">
+                    {{name}}
+                </li>
             </ul>
         </div>
         <button class="searchBtn">删除</button>
@@ -21,13 +17,37 @@
     export default {
         data() {
             return {
-                value: ''
+                value: '',
+                companyName: ['阿里巴巴集团','百度科技有限公司','腾讯科技有限公司',
+                    '软通动力科技有限公司','百旺金赋科技有限公司', '德科信息科技有限公司',
+                    '华为集团'],
+                showCompanyName: []
+            }
+        },
+        methods: {
+            inputValue() {
+                this.showCompanyName = []
+                this.showCompanyName.push(event.target.innerHTML)
+                this.value = event.target.innerHTML.trim()
             }
         },
         watch: {
             value: function(currVal, oldVal){
+                if(this.showCompanyName.length == 1) {
+                    this.showCompanyName = []
+                    return ;
+                }
+                this.showCompanyName = []
                 if(currVal !== oldVal){
-                    console.log("currVal: " + currVal + ", oldVal: " + oldVal)
+                    this.companyName.forEach((value, index, obj) => {
+                        if(value.indexOf(currVal) != -1){
+                            this.showCompanyName.push(value)
+                        }
+                    })
+
+                }
+                if(currVal == ''){
+                    this.showCompanyName = []
                 }
             }
         }
@@ -90,7 +110,6 @@
         margin: auto;
         box-sizing: border-box;
         padding: 0px 10px;
-        height: 102px;
         overflow: auto;
         box-sizing: border-box;
         background: #FFFFFF;
