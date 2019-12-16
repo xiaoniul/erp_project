@@ -7,6 +7,8 @@ import VueRouter from 'vue-router'
 
 import LoginHome from '../views/LoginHome.vue'
 import Supper from '../views/Supper.vue'
+import DelCompany from '../views/DelCompany.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -18,7 +20,21 @@ export default new VueRouter({
         },
         {
             path: '/supper',
-            component: Supper
+            component: Supper,
+            children: [
+                {
+                    path: 'delCompany',
+                    component: DelCompany
+                },
+                {
+                    path: 'register',
+                    component: Register
+                },
+                {
+                    path: '/',
+                    redirect: 'register'
+                }
+            ]
         },
         {
             path: '/',
