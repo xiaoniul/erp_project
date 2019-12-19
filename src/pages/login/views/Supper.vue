@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap clearfix">
+    <div class="wrap clearfix" @click="hiddenSearchList">
 
         <div class="infoWrap">
             <div class="option">
@@ -7,7 +7,7 @@
                 <router-link to="delCompany" class="optionLi" :class="{showHighLight: !isHighLight}" @click.prevent.native="highLightShow(false)">删除</router-link>
             </div>
 
-            <router-view></router-view>
+            <router-view ref="hiddenSearchList"></router-view>
 
         </div>
     </div>
@@ -27,6 +27,11 @@
         methods: {
             highLightShow(bool) {
                 this.isHighLight = bool
+            },
+            hiddenSearchList() {
+                if(this.$refs.hiddenSearchList.showCompanyName){
+                    this.$refs.hiddenSearchList.showCompanyName = []
+                }
             }
         }
     }

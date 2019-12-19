@@ -5,11 +5,14 @@
 import axios from 'axios'
 import qs from 'qs'
 import Vue from 'vue'
-export default function ajax (url, data={}, type='GET') {
+
+export default function ajax (url, data={}, type='GET', headers={}) {
 
   return new Promise(function (resolve, reject) {
     // 执行异步ajax请求
     let promise
+    headers['token'] = Vue.prototype.GLOBAL.token
+    console.log(headers)
     if (type === 'GET') {
       // 准备url query参数数据
       let dataStr = '' //数据拼接字符串
@@ -27,12 +30,20 @@ export default function ajax (url, data={}, type='GET') {
       // data = new FormData()
       // data.append()
       data = qs.stringify(data)
-      promise = axios.post(url, data)
+      promise = axios.post(url, data, {
+        headers: headers
+      })
+      /*promise = axios({
+        url: url,
+        headers: headers,
+        method: 'post',
+        data: data
+      })*/
     }
     promise.then(function (response) {
       // 成功了调用resolve()
-      if(response.data.token && response.data.token != ''){
-          Vue.prototype.GLOBAL.token = response.data.token
+      if(response.headers.token && response.headers.token != ''){
+          Vue.prototype.GLOBAL.token = response.headers.token
       }
       resolve(response.data)
     }).catch(function (error) {

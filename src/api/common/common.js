@@ -9,5 +9,6 @@ export default {
 
 
   loginURL: 'login.do',
-  getCompanyInfo: 'getCompanyInfo.do'
+  getCompanyInfo: 'getCompanyInfo.do',
+  submitCompanyAndUserInfo: 'submitCompanyAndUserInfo.do'
 }
