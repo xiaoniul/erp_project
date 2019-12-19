@@ -14,7 +14,7 @@
             <div class="loginContentArea clearfix">
                 <div class="loginBackground1 clearfix" :style="loginBackground1">
                     <p class="companyName">新页生产ERP</p>
-                    <p class="tag" v-if="isError">用户名、密码或公司名称输入有误</p>
+                    <p class="tag" v-if="isError != ''">{{isError}}</p>
                     <div class="loginInfo" :class="tipClass">
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">用户名<i></i></span><span class="colon">:</span>
@@ -75,7 +75,7 @@
                 password: '',
                 companyValue: '请选择',
                 companys: [{companyName: '请选择'}],
-                isError: false,
+                isError: '',
                 tipClass: 'tipClass'
             }
         },
@@ -102,7 +102,7 @@
                     this.$store.dispatch('setUserName', this.username)
                     this.$router.push('/supper')
                 } else if(respUserInfo.statusCode == common.err) {
-                    this.isError = true
+                    this.isError = respUserInfo.msg
                     this.tipClass = ''
                 }
             }
