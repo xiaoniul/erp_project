@@ -6,13 +6,15 @@ import axios from 'axios'
 import qs from 'qs'
 import Vue from 'vue'
 
-export default function ajax (url, data={}, type='GET', headers={}) {
+export default function ajax (url, data={}, type='GET', headers={
+  token: Vue.prototype.GLOBAL.token,
+  'Content-Type': 'application/x-www-form-urlencoded'
+}) {
 
   return new Promise(function (resolve, reject) {
     // 执行异步ajax请求
     let promise
     headers['token'] = Vue.prototype.GLOBAL.token
-    console.log(headers)
     if (type === 'GET') {
       // 准备url query参数数据
       let dataStr = '' //数据拼接字符串

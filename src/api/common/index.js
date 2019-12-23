@@ -13,4 +13,7 @@ export const reqLogin = (data) => ajax(`${BASE_URL}/${url.loginURL}`, data, 'POS
 export const reqGetCompanyInfo = () => ajax(`${BASE_URL}/${url.getCompanyInfo}`)
 
 //注册公司与用户接口
-export const submitCompanyAndUserInfo = (data, headers) => ajax(`${BASE_URL}/${url.submitCompanyAndUserInfo}`, data, 'POST', headers)
+export const submitCompanyAndUserInfo = (data) => ajax(`${BASE_URL}/${url.submitCompanyAndUserInfo}`, data, 'POST')
+
+//删除公司名
+export const deleteCompany = (data) => ajax(`${BASE_URL}/${url.deleteCompany}`, data, 'POST')

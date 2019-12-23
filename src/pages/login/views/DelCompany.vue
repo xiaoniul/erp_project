@@ -5,42 +5,65 @@
             <input class="searchCompanyValue" type="text" placeholder="请输入公司名称" v-model="value"/>
             <ul class="searchValue" v-if="showCompanyName.length > 0">
                 <li class="searchValueOption" v-for="(name, index) in showCompanyName" @click="inputValue">
-                    {{name}}
+                    {{name.companyName}}
                 </li>
             </ul>
         </div>
-        <button class="searchBtn">删除</button>
+        <button class="searchBtn" @click="deleteCompany">删除</button>
+        <p class="tip" v-if="tipInfo != ''">{{tipInfo}}</p>
     </div>
 </template>
 
 <script>
+    import {reqGetCompanyInfo, deleteCompany} from '../../../api/common/index'
+    import common from '../../../api/common/common'
     export default {
         data() {
             return {
                 value: '',
-                companyName: ['阿里巴巴集团','百度科技有限公司','腾讯科技有限公司',
-                    '软通动力科技有限公司','百旺金赋科技有限公司', '德科信息科技有限公司',
-                    '华为集团'],
-                showCompanyName: []
+                companyName: [],
+                showCompanyName: [],
+                tipInfo: ''
             }
         },
         methods: {
             inputValue() {
-                this.showCompanyName = []
-                this.showCompanyName.push(event.target.innerHTML)
+                this.showCompanyName = 'idle'
                 this.value = event.target.innerHTML.trim()
+            },
+            async deleteCompany() {
+                let data = {companyName: this.value}
+                let response = await deleteCompany(data)
+                if(response.statusCode == common.ok){
+                    this.showCompanyName = []
+                    this.companyName = []
+                }
+                this.tipInfo = response.msg
             }
+        },
+        mounted() {
+            reqGetCompanyInfo()
+                    .then((response) => {
+                        if(response.statusCode === common.ok){
+                            //数组的concat用于将两个数据合并, 此方法不会影响原数组
+                            this.companyName = this.companyName.concat(response.data)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
         },
         watch: {
             value: function(currVal, oldVal){
-                if(this.showCompanyName.length == 1) {
+                if(this.showCompanyName.length == 'idle') {
                     this.showCompanyName = []
                     return ;
                 }
                 this.showCompanyName = []
                 if(currVal !== oldVal){
+                    this.tipInfo = ''
                     this.companyName.forEach((value, index, obj) => {
-                        if(value.indexOf(currVal) != -1){
+                        if(value.companyName.indexOf(currVal) != -1){
                             this.showCompanyName.push(value)
                         }
                     })
@@ -163,6 +186,15 @@
         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
         border-radius: 0;
         background: rgba(0,0,0,0.1);
+    }
+
+    .tip{
+        width: 100%;
+        height: 25px;
+        font: 15px '楷体';
+        line-height: 25px;
+        margin: 10px;
+        text-align: center;
     }
 
 </style>

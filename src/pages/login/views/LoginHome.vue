@@ -26,7 +26,7 @@
                         </div>
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">公司名称<i></i></span><span class="colon">:</span>
-                            <select v-model="companyValue" class="loginInfoValueSelect">
+                            <select v-model="companyValue" class="loginInfoValueSelect" @change="selCompany">
                                 <!--<option>请选择</option>-->
                                 <!--<option>深圳市达博威科技有限公司</option>-->
                                 <!--<option>深圳市德科信息科技有限公司</option>-->
@@ -76,7 +76,8 @@
                 companyValue: '请选择',
                 companys: [{companyName: '请选择'}],
                 isError: '',
-                tipClass: 'tipClass'
+                tipClass: 'tipClass',
+                companyUUID: ''
             }
         },
         mounted() {
@@ -95,12 +96,28 @@
             ...mapState(['name', 'token'])
         },
         methods: {
+            selCompany() {
+                this.companys.forEach((value, index, obj) => {
+                    if(this.companyValue === value.companyName) {
+                        this.companyUUID = value.uuid
+                    }
+                })
+            },
             async login() {
-                let userInfo = {username: this.username, password: this.password}
+                let userInfo = {
+                    username: this.username,
+                    password: this.password,
+                    companyAccountId: this.companyUUID
+                }
                 let respUserInfo = await reqLogin(userInfo)
                 if(respUserInfo.statusCode == common.ok){
                     this.$store.dispatch('setUserName', this.username)
-                    this.$router.push('/supper')
+                    if(respUserInfo.data.isSupper==='yes')
+                        this.$router.push('/supper')
+                    if(respUserInfo.data.isSupper==='no') {
+                        console.log(respUserInfo)
+                        window.location = './index.html'
+                    }
                 } else if(respUserInfo.statusCode == common.err) {
                     this.isError = respUserInfo.msg
                     this.tipClass = ''

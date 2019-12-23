@@ -113,13 +113,8 @@
         methods: {
             input(index) {
                 this.companyRegisterNumber = this.showCompanyName[index].companyRegisterNumber
-                this.showCompanyName = []
                 this.showCompanyName = 'idle'
                 this.companyName = event.target.innerHTML.trim()
-                console.log(index)
-            },
-            hiddenCompanyList() {
-                alert('hello')
             },
             async register() {
                 if(this.companyName.trim() === '') {
@@ -152,11 +147,7 @@
                     phoneNumber: this.phoneNumber,
                     email: this.email
                 }
-                let response = await submitCompanyAndUserInfo(data, {
-                    token: Vue.prototype.GLOBAL.token,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                })
-                console.log("响应:" + response)
+                let response = await submitCompanyAndUserInfo(data)
                 if(response.statusCode === common.ok) {
                     this.errorInfo = response.msg
                 } else {
@@ -165,8 +156,6 @@
             }
         },
         mounted() {
-            console.log(this.__proto__.__proto__)
-            console.log(Vue.prototype.GLOBAL.token)
             reqGetCompanyInfo()
                     .then((response) => {
                         if(response.statusCode === common.ok){
