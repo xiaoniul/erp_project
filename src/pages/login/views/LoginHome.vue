@@ -115,7 +115,7 @@
                     if(respUserInfo.data.isSupper==='yes')
                         this.$router.push('/supper')
                     if(respUserInfo.data.isSupper==='no') {
-                        console.log(respUserInfo)
+                        Vue.prototype.GLOBAL.firstMenuList = respUserInfo.data.firstLevelMenu
                         window.location = './index.html'
                     }
                 } else if(respUserInfo.statusCode == common.err) {

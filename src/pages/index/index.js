@@ -4,11 +4,13 @@
 
 import Vue from 'vue'
 import Index from './Index.vue'
+import router from './router'
 
 import '../../../static/css/common/reset.css'
 
 new Vue({
   el: '#app',
   components: { Index },
-  template: '<Index/>'
+  template: '<Index/>',
+  router
 })

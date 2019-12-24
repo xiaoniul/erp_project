@@ -1,6 +1,6 @@
 <template>
-    <div>
-
+    <div class="operateOption">
+        <router-view></router-view>
     </div>
 </template>
 
@@ -10,5 +10,11 @@
 
 
 <style>
+
+    .operateOption{
+        width: 100%;
+        height: 530px;
+        background: pink;
+    }
 
 </style>
