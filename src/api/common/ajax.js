@@ -14,7 +14,7 @@ export default function ajax (url, data={}, type='GET', headers={
   return new Promise(function (resolve, reject) {
     // 执行异步ajax请求
     let promise
-    headers['token'] = Vue.prototype.GLOBAL.token
+    // headers['token'] = Vue.prototype.GLOBAL.token
     if (type === 'GET') {
       // 准备url query参数数据
       let dataStr = '' //数据拼接字符串

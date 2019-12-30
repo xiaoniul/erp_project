@@ -1,3 +1,4 @@
+<!--
 <template>
     <div>
         <div class="companyInfoWrap">
@@ -82,7 +83,7 @@
 </template>
 
 <script>
-    import {reqGetCompanyInfo, submitCompanyAndUserInfo} from '../../../api/common/index'
+    import {reqGetCompanyInfo, submitCompanyAndUserInfo} from '../../../api/common/url'
     import common from '../../../api/common/common'
     import Vue from 'vue'
     export default {
@@ -378,3 +379,4 @@
     }
 
 </style>
+-->

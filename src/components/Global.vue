@@ -6,9 +6,14 @@
 
 <script>
     export default {
-        data() {
+        /*data() {
             token: ''
             firstMenuList: []
+        }*/
+        data() {
+            return {
+                token: ''
+            }
         }
     }
 </script>

@@ -1,3 +1,4 @@
+<!--
 <template>
     <div class="searchWrap">
         <p class="searchDesc">请输入删除的公司名称</p>
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-    import {reqGetCompanyInfo, deleteCompany} from '../../../api/common/index'
+    import {reqGetCompanyInfo, deleteCompany} from '../../../api/common/interface'
     import common from '../../../api/common/common'
     export default {
         data() {
@@ -198,3 +199,4 @@
     }
 
 </style>
+-->

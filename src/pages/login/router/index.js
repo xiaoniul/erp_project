@@ -5,12 +5,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import LoginHome from '../views/LoginHome.vue'
-import Supper from '../views/Supper.vue'
-import DelCompany from '../views/DelCompany.vue'
-import Register from '../views/Register.vue'
+import LoginHome from '../views/Plus/LoginHome.vue'
+import Supper from '../views/Plus/Supper.vue'
+import DeleteCompany from '../views/Plus/DeleteCompany.vue'
+import DeleteUser from '../views/Plus/DeleteUser.vue'
+import RegisterCompany from '../views/Plus/RegisterCompany.vue'
+import RegisterUser from '../views/Plus/RegisterUser.vue'
+import UpdateCompany from '../views/Plus/UpdateCompany.vue'
+import UpdateUser from '../views/Plus/UpdateUser.vue'
 
 Vue.use(VueRouter)
+
+/*为了解决多次点击同一个路由组件报错问题而加入的*/
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 
 export default new VueRouter({
     routes: [
@@ -23,16 +33,32 @@ export default new VueRouter({
             component: Supper,
             children: [
                 {
-                    path: 'delCompany',
-                    component: DelCompany
+                    path: 'deleteCompany',
+                    component: DeleteCompany
                 },
                 {
-                    path: 'register',
-                    component: Register
+                    path: 'deleteUser',
+                    component: DeleteUser
+                },
+                {
+                    path: 'registerCompany',
+                    component: RegisterCompany
+                },
+                {
+                    path: 'registerUser',
+                    component: RegisterUser
+                },
+                {
+                    path: 'updateCompany',
+                    component: UpdateCompany
+                },
+                {
+                    path: 'updateUser',
+                    component: UpdateUser
                 },
                 {
                     path: '/',
-                    redirect: 'register'
+                    redirect: 'registerCompany'
                 }
             ]
         },

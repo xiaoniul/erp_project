@@ -1,17 +1,16 @@
-<!--
 <template>
     <div class="wrap">
-        &lt;!&ndash;登录页面最外层div&ndash;&gt;
+        <!--登录页面最外层div-->
         <div class="loginPage">
-            &lt;!&ndash;登录页面上面的div，主要作用是设置背景颜色&ndash;&gt;
+            <!--登录页面上面的div，主要作用是设置背景颜色-->
             <div class="loginPageAboveBack">
 
             </div>
-            &lt;!&ndash;登录页面下面的div，主要作用是设置背景颜色&ndash;&gt;
+            <!--登录页面下面的div，主要作用是设置背景颜色-->
             <div class="loginPageBelowBack">
 
             </div>
-            &lt;!&ndash;包含登录输入框、登录按钮、文字、图片的div&ndash;&gt;
+            <!--包含登录输入框、登录按钮、文字、图片的div-->
             <div class="loginContentArea clearfix">
                 <div class="loginBackground1 clearfix" :style="loginBackground1">
                     <p class="companyName">新页生产ERP</p>
@@ -28,10 +27,10 @@
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">公司名称<i></i></span><span class="colon">:</span>
                             <select v-model="companyValue" class="loginInfoValueSelect" @change="selCompany">
-                                &lt;!&ndash;<option>请选择</option>&ndash;&gt;
-                                &lt;!&ndash;<option>深圳市达博威科技有限公司</option>&ndash;&gt;
-                                &lt;!&ndash;<option>深圳市德科信息科技有限公司</option>&ndash;&gt;
-                                &lt;!&ndash;<option>深圳市软通动力科技有限公司</option>&ndash;&gt;
+                                <!--<option>请选择</option>-->
+                                <!--<option>深圳市达博威科技有限公司</option>-->
+                                <!--<option>深圳市德科信息科技有限公司</option>-->
+                                <!--<option>深圳市软通动力科技有限公司</option>-->
                                 <option v-for="(company, index) in companys" :key="index">
                                     {{company.companyName}}
                                 </option>
@@ -57,23 +56,23 @@
 <script>
     import {mapState} from 'vuex'
     import VueResource from 'vue-resource'
-    import common from '../../../api/common/common'
-    import {reqGetCompanyInfo, reqLogin} from '../../../api/common/interface'
+    import common from '../../../../api/common/common'
+    import {reqGetCompanyInfo, reqLogin} from '../../../../api/common/interface'
 
     export default{
         data() {
             return {
                 loginBackground1: {
-                    backgroundImage: "url(" + require("./images/loginBackground1.png") + ")",
+                    backgroundImage: "url(" + require("../images/loginBackground1.png") + ")",
                     backgroundRepeat: "repeat-x"
                 },
                 loginBackground2: {
-                    backgroundImage: "url(" + require("./images/loginBackground2.png") + ")",
+                    backgroundImage: "url(" + require("../images/loginBackground2.png") + ")",
                     backgroundRepeat: "repeat-x"
                 },
-                logo: require("./images/logo.png"),
-                username: '',
-                password: '',
+                logo: require("../images/logo.png"),
+                username: 'supper',
+                password: 'supper',
                 companyValue: '请选择',
                 companys: [{companyName: '请选择'}],
                 isError: '',
@@ -114,7 +113,7 @@
                 if(respUserInfo.statusCode == common.ok){
                     this.$store.dispatch('setUserName', this.username)
                     if(respUserInfo.data.isSupper==='yes')
-                        this.$router.push('/supper')
+                        this.$router.push('./supper')
                     if(respUserInfo.data.isSupper==='no') {
                         Vue.prototype.GLOBAL.firstMenuList = respUserInfo.data.firstLevelMenu
                         window.location = './index.html'
@@ -331,4 +330,3 @@
         font: 11px "楷体";
     }
 </style>
--->
