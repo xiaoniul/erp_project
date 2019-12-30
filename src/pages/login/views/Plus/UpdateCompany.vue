@@ -1,11 +1,7 @@
 <template>
     <div>
+        <div class="backRoute" @click="$router.back()" v-if="this.$route.params.companyName"></div>
         <p class="updateCompanyTitle">修改公司信息</p>
-        <!--<div class="queryCompanyInfo">
-            <span class="queryCompanyInfoDesc">查询公司<i></i></span><span class="updateColon">:</span>
-            <input class="queryCompanyInfoValue" type="text" placeholder="输入要修改的公司名称" v-model="queryCompanyName" @contextmenu.prevent><span class="updateMust">*</span>
-            <button class="queryBtn">查询</button>
-        </div>-->
         <div class="updateCompanyInfo">
             <p>
                 <span class="updateCompanyInfoDesc">查询公司<i></i></span><span class="updateColon">:</span>
@@ -81,17 +77,17 @@
                 question: require("../images/question.png"),
                 showScaleDesc: false,
 
-                queryCompanyName: '',
-                updateCompanyName: '',
-                updateCompanyScale: '',
-                updateCompanyAddress: '',
-                updateCompanyRegisterDate: '',
-                updateCompanyRegisterNumber: '',
-                updateCompanyLegalPerson: '',
-                updateCompanyType: '',
-                updateCompanyBusinessNumber: '',
-                updateCompanyRegisterCapital: '',
-                uuid: '',
+                queryCompanyName: this.$route.params.companyName,
+                updateCompanyName: this.$route.params.companyName,
+                updateCompanyScale: this.$route.params.companyScale,
+                updateCompanyAddress: this.$route.params.companyAddress,
+                updateCompanyRegisterDate: this.$route.params.companyEstablishDate,
+                updateCompanyRegisterNumber: this.$route.params.companyRegisterNumber,
+                updateCompanyLegalPerson: this.$route.params.companyLegalPerson,
+                updateCompanyType: this.$route.params.companyType,
+                updateCompanyBusinessNumber: this.$route.params.companyBusinessNumber,
+                updateCompanyRegisterCapital: this.$route.params.companyRegisterCapital,
+                uuid: this.$route.params.uuid,
 
                 msg: '',
                 showMsg: false
@@ -100,7 +96,7 @@
         methods: {
 
             inputNumber(){
-                this.updateCompanyRegisterCapital = this.updateCompanyRegisterCapital.replace(/[^\d]/g, '')
+                this.updateCompanyRegisterCapital = this.updateCompanyRegisterCapital.replace(/[^\d|^.]/g, '')
             },
 
             async getSingleCompanyInfo() {
@@ -203,50 +199,46 @@
 
 <style>
 
+    .backRoute{
+      float: left;
+      width: 30px;
+      height: 20px;
+      background-color: goldenrod;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("../images/back.png");
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+
+    .backRoute:hover{
+      background-color: gold;
+      cursor: pointer;
+    }
+
+    .backRoute:active{
+      background-color: mediumseagreen;
+    }
+
     .updateCompanyTitle{
         width: 100%;
         text-align: center;
         font: bold 20px '微软雅黑';
         margin-top: 10px;
-        margin-bottom: 0px;
-    }
-
-    .queryCompanyInfo{
-        width: 100%;
-        height: 25px;
-        margin-top: 10px;
-        text-align: center;
-    }
-
-    .queryCompanyInfo:after{
-        content: "";
-        width: 0;
-        height: 100%;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .queryCompanyInfoDesc{
-        font: 15px '微软雅黑';
-        letter-spacing: 3px;
-    }
-
-    .queryCompanyInfoValue{
-        font: 13px '微软雅黑';
-        letter-spacing: 2px;
-        width: 170px;
+        margin-bottom: 5px;
     }
 
     .queryBtn{
         position: absolute;
         vertical-align: middle;
-        left: 366px;
+        left: 365px;
         top: 6px;
         width: 42px;
         height: 27px;
         border: none;
         outline: none;
-        border-radius: 3px;
+        border-radius: 2px;
         background: goldenrod;
     }
 

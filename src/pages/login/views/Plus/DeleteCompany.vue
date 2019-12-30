@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="delCompanyWrap">
 
         <p class="deleteCompanyTitle">公司信息</p>
 
@@ -13,66 +13,165 @@
             </thead>
             <tbody>
                 <tr v-for="(company, index) in companys" :key="index">
-                    <td>{{index}}</td>
-                    <td class="tableCenter">{{company.companyName}}</td>
+                    <td>{{cnt*5 + index + 1}}</td>
+                    <td class="tableCenter" @click="showCompany(index, company)">{{company.companyName}}</td>
                     <td>
-                        <span class="delCompany" @click="deleteCompany(index)"></span><span class="uptCompany" @click="updateCompany(index)"></span>
+                        <!--<span class="delCompany" @click="deleteCompany(company)"></span><span class="uptCompany" @click="updateCompany(company)"></span>-->
+                        <el-button type="text" @click="open(company)"></el-button><span class="uptCompany" @click="updateCompany(company)"></span>
                     </td>
-                    <!--<td><img src="../images/delete.png" @click="deleteCompany(index)" class="delCompany"> &nbsp; &nbsp;
-                        <img src="../images/edit.png" @click="updateCompany(index)" class="uptCompany"></td>-->
                 </tr>
-                <!--<tr>
-                    <td>1</td>
-                    <td class="tableCenter">字节跳动</td>
-                    <td><img src="../images/delete.png"> &nbsp; &nbsp;<img src="../images/edit.png"></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td class="tableCenter">字节跳动</td>
-                    <td><img src="../images/delete.png"> &nbsp; &nbsp;<img src="../images/edit.png"></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td class="tableCenter">字节跳动</td>
-                    <td><img src="../images/delete.png"> &nbsp; &nbsp;<img src="../images/edit.png"></td>
-                </tr>-->
             </tbody>
         </table>
 
         <div class="deleteCompanyOperateWrap">
-            <button class="pagePrev">上一页</button>
-            <button class="pageNext">下一页</button>
+            <button class="pagePrev" @click="pagePrev">上一页</button>
+            <button class="pageNext" @click="pageNext">下一页</button>
 
-            <img src="../images/search.png" class="searchCompanyIcon">
-            <input class="searchCompany" type="text" placeholder="搜索公司">
+            <img src="../images/search.png" class="searchCompanyIcon" @click="search">
+            <input class="searchCompany" type="text" placeholder="搜索公司" @keyup.enter="search" v-model="searchCompany">
+            <p class="tip" v-if="showMsg">{{msg}}</p>
         </div>
-        <p class="tip">提示信息提示信息提示信息</p>
-
-        <!--<p class="deleteCompanyTitle">删除公司</p>
-        <div class="deleteCompanyInfo">
-            <p>
-                <span class="deleteCompanyInfoDesc">公司名称<i></i></span><span class="colon">:</span>
-                <input class="deleteCompanyInfoValue" type="text" v-model="username" placeholder="请输入要删除的公司名称"><span class="must">*</span>
-            </p>
-        </div>
-        <button class="deleteCompanyBtn">删除</button>
-        <p class="tip">提示信息提示信息提示信息</p>-->
+      <router-view></router-view>
     </div>
 </template>
 
 <script>
+    import common from '../../../../api/common/common'
+    import {getCompanysByPages, getSingleCompanyInfo, deleteCompany} from '../../../../api/common/interface'
     export default {
         data() {
             return {
-                companys: [{companyName: '阿里巴巴'}, {companyName: '阿里巴巴'}, {companyName: '阿里巴巴'}]
+                companys: [],
+                pageNumber: 1,
+                cnt: 0,
+                msg: '',
+                showMsg: false,
+                searchCompany: '',
+                dialogVisible: false
             }
         },
+        async mounted() {
+            let resp = await getCompanysByPages({pageNumber: this.pageNumber});
+            if(resp.statusCode != common.ok) {
+                this.msg = resp.msg
+                this.showMsg = true
+                return
+            }
+            this.companys = resp.data
+        },
         methods: {
-            deleteCompany(index) {
-                alert('确定要删除吗?')
+            showCompany(index, company){
+                this.$router.push({name: 'showCompany', params: company})
             },
-            updateCompany(index) {
-                console.log('upt: ', index)
+            async deleteCompany(company) {
+                let resp = await deleteCompany({companyName: company.companyName})
+                if(resp.statusCode != common.ok) {
+                  this.msg = resp.msg
+                  this.showMsg = true
+                  return
+                }
+                this.msg = resp.msg
+                this.showMsg = true
+                let respPage = await getCompanysByPages({pageNumber: this.pageNumber});
+                if(respPage.statusCode != common.ok) {
+                  this.msg = respPage.msg
+                  this.showMsg = true
+                  return
+                }
+                this.companys = respPage.data
+            },
+            updateCompany(company) {
+                this.$router.push({name: 'updateCompany', params: company})
+            },
+            async pageNext() {
+                this.pageNumber++
+                let resp = await getCompanysByPages({pageNumber: this.pageNumber});
+                if(resp.statusCode != common.ok) {
+                    this.msg = resp.msg
+                    this.showMsg = true
+                    this.pageNumber = 1
+                    this.cnt = 0
+                    return
+                }
+                if(resp.data != null && resp.data.length > 0) {
+                    this.companys = resp.data
+                    this.cnt++
+                }
+                if(resp.data.length == 0){
+                    this.pageNumber--
+                }
+            },
+            async pagePrev() {
+                this.pageNumber--
+                this.cnt--
+                if(this.pageNumber == 0){
+                    this.pageNumber = 1
+                    this.cnt = 0
+                }
+                let resp = await getCompanysByPages({pageNumber: this.pageNumber});
+                if(resp.statusCode != common.ok) {
+                    this.msg = resp.msg
+                    this.showMsg = true
+                    this.pageNumber = 1
+                    this.cnt = 0
+                    return
+                }
+                this.companys = resp.data
+            },
+            async search() {
+                this.pageNumber = 1
+                this.cnt = 0
+                if(common.isEmpty(this.searchCompany)){
+                    let resp = await getCompanysByPages({pageNumber: 1});
+                    if(resp.statusCode != common.ok) {
+                      this.msg = resp.msg
+                      this.showMsg = true
+                      return
+                    }
+                    this.companys = resp.data
+                    return
+                }
+                let resp = await getSingleCompanyInfo({companyName: this.searchCompany})
+                if(resp.statusCode != common.ok) {
+                    this.msg = resp.msg
+                    this.showMsg = true
+                    return
+                }
+                this.companys = []
+                this.companys.push(resp.data)
+            },
+            open(company) {
+                this.$confirm(`确定删除${company.companyName}?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(async () => {
+                    let resp = await deleteCompany({companyName: company.companyName})
+                    if(resp.statusCode != common.ok) {
+                        this.msg = resp.msg
+                        this.showMsg = true
+                        return
+                    }
+                    /*this.msg = resp.msg
+                    this.showMsg = true*/
+                    let respPage = await getCompanysByPages({pageNumber: this.pageNumber});
+                    if(respPage.statusCode != common.ok) {
+                        this.msg = respPage.msg
+                        this.showMsg = true
+                        return
+                    }
+                    this.companys = respPage.data
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                  });
+                });
             }
         }
     }
@@ -80,6 +179,10 @@
 
 
 <style>
+
+    .delCompanyWrap{
+        position: relative;
+    }
 
     .deleteCompanyTitle{
         width: 100%;
@@ -121,6 +224,11 @@
         width: 200px;
     }
 
+    .deleteCompanyTable td:nth-child(2n):hover{
+      cursor: pointer;
+      background-color: greenyellow;
+    }
+
     .deleteCompanyTable td:nth-child(3n){
         cursor: pointer;
     }
@@ -134,8 +242,24 @@
         background-position: center;
     }
 
+    .el-button--text{
+        width: 50%;
+        height: 100%;
+        display: inline-block;
+        background-image: url("../images/delete.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
     .delCompany:hover{
-        background-color: blue;
+        background-color: greenyellow;
+    }
+
+    .el-button--text:hover{
+      background-color: greenyellow;
     }
 
     .uptCompany{
@@ -148,7 +272,7 @@
     }
 
     .uptCompany:hover{
-        background-color: blue;
+        background-color: greenyellow;
     }
 
     /*.deleteCompanyTable td:nth-child(3n):active{*/
@@ -207,7 +331,8 @@
 
     .deleteCompanyOperateWrap{
         width: 100%;
-        position: relative;
+        position: absolute;
+        top: 265px;
     }
 
     .searchCompanyIcon{

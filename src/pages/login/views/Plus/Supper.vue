@@ -2,7 +2,7 @@
     <div class="wrap">
         <div class="supper">
             <div class="advert">
-                <a class="CC text" href="http://www.mibi4.com">小广告: 瓜子、花生、矿泉水</a>
+                <a class="CC text" href="http://www.baidu.com">小广告: 瓜子、花生、矿泉水</a>
             </div>
             <ul class="operateList">
                 <li class="operateItemActive" @click="goto('./registerCompany')">注册公司</li>
@@ -119,7 +119,7 @@
 
     .operateItem:hover, .operateItemActive:hover{
         cursor: pointer;
-        background: blue;
+        background: darkolivegreen;
     }
 
     .routerView{

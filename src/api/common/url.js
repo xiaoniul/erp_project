@@ -8,5 +8,6 @@ export default {
   registerOrUpdateCompanyInfo: 'registerOrUpdateCompanyInfo.do',
   getSingleCompanyInfo: 'getSingleCompanyInfo.do',
   registerOrUpdateUserInfo: 'registerOrUpdateUserInfo.do',
-  getSingleUserInfo: 'getSingleUserInfo.do'
+  getSingleUserInfo: 'getSingleUserInfo.do',
+  getCompanysByPages: 'getCompanysByPages.do'
 }

@@ -6,9 +6,6 @@
                 <span class="companyInfoDesc">公司名称<i></i></span><span class="colon">:</span>
                 <input class="companyInfoValue" type="text" placeholder="请输入公司名称" v-model="companyName"><span class="must">*</span>
             </p>
-            <!--<ul class="companyInfoName" v-if="showCompanyName.length > 0">
-                <li v-for="(showCompany, index) in showCompanyName" :key="index" @click="input(index)">{{showCompany.companyName}}</li>
-            </ul>-->
             <p>
                 <span class="companyInfoDesc">公司规模<i></i></span><span class="colon">:</span>
                 <select class="companyInfoValue companyInfoValueSel" v-model="companyScale" >
@@ -27,7 +24,7 @@
                 <input class="companyInfoValue" v-model="companyAddress" type="text" placeholder="请输入公司地址">
             </p>
             <div class="block">
-                <span class="companyInfoDesc">公司注册日期<i></i></span><span class="colon">:</span>
+                <span class="companyInfoDesc">公司成立日期<i></i></span><span class="colon">:</span>
                 <el-date-picker v-model="companyRegisterDate" type="date" placeholder="请输入日期">
                 </el-date-picker>
             </div>
@@ -87,7 +84,7 @@
         methods: {
 
             inputNumber(){
-                this.companyRegisterCapital = this.companyRegisterCapital.replace(/[^\d]/g, '')
+                this.companyRegisterCapital = this.companyRegisterCapital.replace(/[^\d|^.]/g, '')
 //                debugger
             },
 
