@@ -6,13 +6,15 @@
             </div>
             <ul class="operateList">
                 <li class="operateItemActive" @click="goto('./registerCompany')">注册公司</li>
-                <li class="operateItem" @click="goto('./updateCompany')">修改公司信息</li>
+                <!--<li class="operateItem" @click="goto('./updateCompany')">修改公司信息</li>-->
                 <li class="operateItem" @click="goto('./registerUser')">注册用户</li>
-                <li class="operateItem" @click="goto('./updateUser')">修改用户信息</li>
+                <!--<li class="operateItem" @click="goto('./updateUser')">修改用户信息</li>-->
                 <li class="operateItem" @click="goto('./deleteCompany')">公司信息</li>
                 <li class="operateItem" @click="goto('./deleteUser')">用户信息</li>
             </ul>
-            <router-view class="routerView"></router-view>
+            <!--<keep-alive>-->
+                <router-view class="routerView"></router-view>
+            <!--</keep-alive>-->
         </div>
     </div>
 </template>

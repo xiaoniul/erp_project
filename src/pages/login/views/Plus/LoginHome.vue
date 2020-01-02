@@ -27,10 +27,6 @@
                         <div class="loginInfoOption">
                             <span class="loginInfoDesc">公司名称<i></i></span><span class="colon">:</span>
                             <select v-model="companyValue" class="loginInfoValueSelect" @change="selCompany">
-                                <!--<option>请选择</option>-->
-                                <!--<option>深圳市达博威科技有限公司</option>-->
-                                <!--<option>深圳市德科信息科技有限公司</option>-->
-                                <!--<option>深圳市软通动力科技有限公司</option>-->
                                 <option v-for="(company, index) in companys" :key="index">
                                     {{company.companyName}}
                                 </option>
@@ -55,6 +51,7 @@
 
 <script>
     import {mapState} from 'vuex'
+    import Vue from 'vue'
     import VueResource from 'vue-resource'
     import common from '../../../../api/common/common'
     import {reqGetCompanyInfo, reqLogin} from '../../../../api/common/interface'
@@ -110,11 +107,13 @@
                     companyAccountId: this.companyUUID
                 }
                 let respUserInfo = await reqLogin(userInfo)
+                debugger
                 if(respUserInfo.statusCode == common.ok){
                     this.$store.dispatch('setUserName', this.username)
                     if(respUserInfo.data.isSupper==='yes')
                         this.$router.push('./supper')
                     if(respUserInfo.data.isSupper==='no') {
+                          debugger
                         Vue.prototype.GLOBAL.firstMenuList = respUserInfo.data.firstLevelMenu
                         window.location = './index.html'
                     }

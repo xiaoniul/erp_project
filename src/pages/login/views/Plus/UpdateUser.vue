@@ -1,16 +1,8 @@
 <template>
     <div>
+      <div class="backRouteUser" @click="$router.back()" v-if="this.$route.params.username"></div>
         <p class="updateAdminTitle">修改管理员信息</p>
         <div class="updateAdminInfo">
-            <p>
-                <span class="updateAdminInfoDesc">公司名称<i></i></span><span class="colon">:</span>
-                <input class="updateAdminInfoValue" type="text" v-model="updateUserCompany" placeholder="请输入公司名称"><span class="must">*</span>
-            </p>
-            <p>
-                <span class="updateAdminInfoDesc">查询管理员账号<i></i></span><span class="colon">:</span>
-                <input class="updateAdminInfoValue" type="text" v-model="usernameOld" placeholder="请输入管理员账号"><span class="must">*</span>
-                <button class="queryUserBtn" @click="queryUpdateUser">查询</button>
-            </p>
             <p>
                 <span class="updateAdminInfoDesc">管理员账号<i></i></span><span class="colon">:</span>
                 <input class="updateAdminInfoValue" type="text" v-model="usernameNew" placeholder="请输入管理员账号"><span class="must">*</span>
@@ -40,15 +32,15 @@
         data() {
             return {
 
-                updateUserCompany: '',
+                updateUserCompany: this.$route.params.companyName,
 
                 usernameOld: '',
-                phoneNumber: '',
-                email: '',
-                wechatNumber: '',
-                uuid: '',
+                phoneNumber: this.$route.params.phoneNumber,
+                email: this.$route.params.email,
+                wechatNumber: this.$route.params.wechatNumber,
+                uuid: this.$route.params.userUUID,
 
-                usernameNew: '',
+                usernameNew: this.$route.params.username,
 
                 msg: '',
                 showMsg: ''
@@ -80,8 +72,6 @@
                 this.wechatNumber = response.data.wechatNumber
                 this.uuid = response.data.uuid
 
-//                this.msg = response.msg
-//                this.showMsg = true
             },
             async updateUser() {
                 if(common.isEmpty(this.uuid)){
@@ -113,6 +103,19 @@
 
 
 <style>
+
+    .backRouteUser{
+      float: left;
+      width: 30px;
+      height: 20px;
+      background-color: goldenrod;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("../images/back.png");
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-left: 20px;
+    }
 
     .updateAdminTitle{
         width: 100%;

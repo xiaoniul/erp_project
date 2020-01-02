@@ -28,3 +28,7 @@ export const registerOrUpdateUserInfo = (data) => ajax(`${BASE_URL}/${url.regist
 export const getSingleUserInfo = (data) => ajax(`${BASE_URL}/${url.getSingleUserInfo}`, data, 'POST')
 
 export const getCompanysByPages = (data) => ajax(`${BASE_URL}/${url.getCompanysByPages}`, data, 'POST')
+
+export const getUserInfosByPages = (data) => ajax(`${BASE_URL}/${url.getUserInfosByPages}`, data, 'POST')
+
+export const deleteUserInfo = (data) => ajax(`${BASE_URL}/${url.deleteUserInfo}`, data, 'POST')

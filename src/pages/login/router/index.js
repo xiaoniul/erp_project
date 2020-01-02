@@ -14,6 +14,7 @@ import RegisterUser from '../views/Plus/RegisterUser.vue'
 import UpdateCompany from '../views/Plus/UpdateCompany.vue'
 import UpdateUser from '../views/Plus/UpdateUser.vue'
 import ShowCompany from '../views/Plus/ShowCompany.vue'
+import ShowUser from '../views/Plus/ShowUser.vue'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,7 @@ export default new VueRouter({
                     component: UpdateCompany
                 },
                 {
+                    name: 'updateUser',
                     path: 'updateUser',
                     component: UpdateUser
                 },
@@ -62,6 +64,11 @@ export default new VueRouter({
                     name: 'showCompany',
                     path: 'showCompany',
                     component: ShowCompany
+                },
+                {
+                    name: 'showUser',
+                    path: 'showUser',
+                    component: ShowUser
                 },
                 {
                     path: '/',

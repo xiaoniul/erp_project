@@ -66,7 +66,7 @@
                     this.showMsg = true
                     return
                 }
-                if(!common.isEmpty(this.email) && !/^([A-z]|[0-9])(\w|\_)+@[A-z0-9]+\.([A-z]{2,4})$/.test(this.email)){
+                if(!common.isEmpty(this.email) && !/^([A-z0-9])(\w|\_)*@[A-z0-9]+\.([A-z]{2,4})$/.test(this.email)){
                     this.msg = '邮箱不合法,请重新输入'
                     this.showMsg = true
                     return

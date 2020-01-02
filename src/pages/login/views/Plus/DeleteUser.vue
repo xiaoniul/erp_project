@@ -5,8 +5,11 @@
 
         <p class="deleteUserSearch">
             <span>请输入公司名称: &nbsp</span>
-            <input type="text" placeholder="请输入公司名称">
-            <button>查询用户</button>
+            <!--<input type="text" placeholder="请输入公司名称" v-model="companyName" @keyup.enter="queryUsers">-->
+            <select v-model="companyName" @change="queryUsers">
+                <option v-for="(company, index) in companys">{{company.companyName}}</option>
+            </select>
+            <button @click="queryUsers">查询用户</button>
         </p>
         <table class="deleteUserTable">
             <thead>
@@ -17,37 +20,182 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td class="tableCenter">字节跳动</td>
-                <td><img src="../images/delete.png"></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td class="tableCenter">字节跳动</td>
-                <td><img src="../images/delete.png"></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td class="tableCenter">字节跳动</td>
-                <td><img src="../images/delete.png"></td>
-            </tr>
+              <tr v-for="(user, index) in users" :key="index">
+                  <td>{{cnt*5 + index + 1}}</td>
+                  <td class="tableCenter" @click="showUser(index, user)">{{user.username}}</td>
+                  <td>
+                      <!--<span class="delCompany" @click="deleteCompany(company)"></span><span class="uptCompany" @click="updateCompany(company)"></span>-->
+                      <el-button type="text" @click="open(user)"></el-button><span class="uptUser" @click="updateUser(user)"></span>
+                  </td>
+              </tr>
             </tbody>
         </table>
 
         <div class="deleteUserOperateWrap">
-            <button class="pagePrev">上一页</button>
-            <button class="pageNext">下一页</button>
+            <button class="pagePrev" @click="pagePrev">上一页</button>
+            <button class="pageNext" @click="pageNext">下一页</button>
 
-            <img src="../images/search.png" class="searchUserIcon">
-            <input class="searchUser" type="text" placeholder="搜索用户">
+            <img src="../images/search.png" class="searchUserIcon" @click="searchUser">
+            <input class="searchUser" type="text" placeholder="搜索用户" v-model="searchUserName" @keyup.enter="searchUser">
+            <p class="tip" v-if="showMsg">{{msg}}</p>
         </div>
-        <p class="tip">提示信息提示信息提示信息</p>
     </div>
 </template>
 
 <script>
-    export default {}
+    import common from '../../../../api/common/common'
+    import {reqGetCompanyInfo, getUserInfosByPages, deleteUserInfo, getSingleUserInfo} from '../../../../api/common/interface'
+    export default {
+        data() {
+            return {
+                msg: '',
+                showMsg: false,
+                companys: [],
+                companyName: '',
+                users: [],
+                cnt: 0,
+                searchUserName: '',
+                number: 1,
+                flag: true
+            }
+        },
+        async mounted() {
+            let resp = await reqGetCompanyInfo()
+            if(resp.statusCode != common.ok){
+                this.msg = resp.msg
+                this.showMsg = true
+                return
+            }
+            this.companys = resp.data
+        },
+        methods: {
+            async queryUsers(bool) {
+                if(!bool) {
+                  if (common.isEmpty(this.companyName)) {
+                    this.msg = '请输入公司名'
+                    this.showMsg = true
+                    return
+                  }
+                }
+                let data = {
+                    pageNumber: 1,
+                    pageSize: 5,
+                    companyName: this.companyName
+                }
+                let resp = await getUserInfosByPages(data)
+                this.users = resp.data
+            },
+            async pageNext() {
+                if(this.flag) {
+                    if (common.isEmpty(this.companyName)) {
+                        return
+                    }
+                    this.number++
+                    let data = {
+                        pageNumber: this.number,
+                        pageSize: 5,
+                        companyName: this.companyName
+                    }
+                    let resp = await getUserInfosByPages(data)
+                    if (resp.data.length == 0) {
+                        this.number--
+                        return
+                    }
+                    this.cnt++
+                    this.users = resp.data
+                }
+            },
+            async pagePrev() {
+                if(this.flag) {
+                  if (common.isEmpty(this.companyName)) {
+                    return
+                  }
+                  if (this.number == 1) {
+                    return
+                  }
+                  this.number--
+                  this.cnt--
+                  let data = {
+                    pageNumber: this.number,
+                    pageSize: 5,
+                    companyName: this.companyName
+                  }
+                  let resp = await getUserInfosByPages(data)
+                  this.users = resp.data
+                }
+            },
+            async searchUser() {
+                this.flag = false
+                if(common.isEmpty(this.companyName)) {
+                    this.msg = '请先选择公司'
+                    this.showMsg = true
+                    return
+                }
+                if(common.isEmpty(this.searchUserName)){
+                    let data = {
+                      pageNumber: 1,
+                      pageSize: 5,
+                      companyName: this.companyName
+                    }
+                    let resp = await getUserInfosByPages(data)
+                    this.users = resp.data
+                    this.flag = true
+                    return
+                }
+                let u = await getSingleUserInfo({companyName: this.companyName, username: this.searchUserName})
+                this.users = []
+                this.users.push(u.data)
+            },
+            showUser(index, user) {
+                user['companyName'] = this.companyName
+                this.$router.push({name: 'showUser', params: user})
+            },
+            updateUser(user) {
+                if(common.isEmpty(user.userUUID)){
+                    user.userUUID = user.uuid
+                    user.companyUUID = user.companyAccountId
+                    user.updateUserCompany = this.companyName
+                }
+                this.$router.push({name: 'updateUser', params: user})
+            },
+            open(user) {
+                this.$confirm(`确定删除${user.username}?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(async () => {
+                    let resp = await deleteUserInfo({companyName: this.companyName, username: user.username})
+                    if(resp.statusCode != common.ok) {
+                        this.msg = resp.msg
+                        this.showMsg = true
+                        return
+                    }
+                    let data = {
+                        pageNumber: 1,
+                        pageSize: 5,
+                        companyName: this.companyName
+                    }
+                    let respPage = await getUserInfosByPages(data);
+                    if(respPage.statusCode != common.ok) {
+                        this.msg = respPage.msg
+                        this.showMsg = true
+                        return
+                    }
+                    this.users = respPage.data
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                  }).catch(() => {
+                      this.$message({
+                          type: 'info',
+                          message: '已取消删除'
+                      });
+                });
+            }
+        }
+    }
 </script>
 
 
@@ -63,6 +211,7 @@
 
     .deleteUserSearch{
         width: 100%;
+        text-align: center;
     }
 
     .deleteUserSearch > span{
@@ -71,7 +220,7 @@
         margin-left: 30px;
     }
 
-    .deleteUserSearch > input{
+    .deleteUserSearch > select{
         width: 150px;
         height: 23px;
         font: 13px '微软雅黑';
@@ -132,6 +281,11 @@
 
     .deleteUserTable td:nth-child(2n){
         width: 200px;
+    }
+
+    .deleteUserTable td:nth-child(2n):hover{
+        cursor: pointer;
+        background-color: greenyellow;
     }
 
     .deleteCompanyTable td:nth-child(3n){
@@ -201,6 +355,35 @@
         position: absolute;
         left: 291px;
         top: 25px;
+    }
+
+    .uptUser{
+        width: 50%;
+        height: 100%;
+        display: inline-block;
+        background-image: url("../images/edit.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .uptUser:hover{
+        background-color: greenyellow;
+    }
+
+    .el-button--text{
+        width: 50%;
+        height: 100%;
+        display: inline-block;
+        background-image: url("../images/delete.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    .el-button--text:hover{
+        background-color: greenyellow;
     }
 
 </style>

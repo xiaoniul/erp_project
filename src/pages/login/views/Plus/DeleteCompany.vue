@@ -233,15 +233,6 @@
         cursor: pointer;
     }
 
-    .delCompany{
-        width: 50%;
-        height: 100%;
-        display: inline-block;
-        background-image: url("../images/delete.png");
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
     .el-button--text{
         width: 50%;
         height: 100%;
@@ -252,10 +243,6 @@
         padding: 0;
         border: none;
         border-radius: 0;
-    }
-
-    .delCompany:hover{
-        background-color: greenyellow;
     }
 
     .el-button--text:hover{
@@ -274,10 +261,6 @@
     .uptCompany:hover{
         background-color: greenyellow;
     }
-
-    /*.deleteCompanyTable td:nth-child(3n):active{*/
-        /*background: mediumblue;*/
-    /*}*/
 
     .tableCenter{
         border-right: 1px solid black;
@@ -340,79 +323,5 @@
         left: 291px;
         top: 25px;
     }
-
-    /*.deleteCompanyTitle{
-        width: 100%;
-        text-align: center;
-        font: bold 20px '微软雅黑';
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-    .deleteCompanyInfo{
-        width: 100%;
-        position: relative;
-        padding-left: 85px;
-        box-sizing: border-box;
-    }
-
-    .deleteCompanyInfoDesc{
-        display: inline-block;
-        text-align: justify;
-        width: 135px;
-        height: 20px;
-        font: 15px '微软雅黑';
-        vertical-align: middle;
-    }
-
-    .colon{
-        display: inline-block;
-        font: 15px '微软雅黑';
-        vertical-align: middle;
-    }
-
-    .deleteCompanyInfoDesc > i{
-        display: inline-block;
-        width: 100%;
-        height: 0;
-        background: red;
-    }
-
-    .deleteCompanyInfoValue{
-        width: 170px;
-        height: 25px;
-        border: 1px solid #646464;
-        font: 13px "微软雅黑";
-        padding: 1px 4px;
-        outline: none;
-        border-radius: 3px;
-        margin-top: 5px;
-        letter-spacing: 2px;
-    }
-
-    .deleteCompanyBtn{
-        width: 70px;
-        height: 28px;
-        font: 15px '微软雅黑';
-        border: none;
-        border-radius: 5px;
-        background: goldenrod;
-        margin: auto;
-        display: block;
-        margin-top: 20px;
-        letter-spacing: 5px;
-        outline: none;
-        padding-left: 10px;
-        text-align: center;
-    }
-
-    .deleteCompanyBtn:hover{
-        background: gold;
-        cursor: pointer;
-    }
-
-    .deleteCompanyBtn:active{
-        background: mediumseagreen;
-    }*/
 
 </style>
