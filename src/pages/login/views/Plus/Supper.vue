@@ -60,14 +60,14 @@
         background: burlywood;
     }
 
-    .advert{
+    /*.advert{
         width: 100%;
         height: 30px;
         border-bottom: 1px solid black;
         background: mediumseagreen;
         overflow: hidden;
         position: relative;
-    }
+    }*/
 
     .text{
         font: 15px '微软雅黑';
@@ -89,7 +89,8 @@
         height: 469px;
         border-right: 1px solid black;
         box-sizing: border-box;
-        background: mediumseagreen;
+        /*background: mediumseagreen;*/
+        background: #24304C;
     }
 
     .operateItem{
@@ -116,19 +117,22 @@
         letter-spacing: 2px;
         padding: 5px 0;
         padding-left: 10px;
-        background: yellowgreen;
+        /*background: yellowgreen;*/
+        background: #263F5E;
     }
 
     .operateItem:hover, .operateItemActive:hover{
         cursor: pointer;
-        background: darkolivegreen;
+        /*background: darkolivegreen;*/
+        background: #182239;
     }
 
     .routerView{
         float: left;
         width: 480px;
         height: 469px;
-        background: yellowgreen;
+        /*background: yellowgreen;*/
+        background: #CDE5F1;
     }
 
     @keyframes text {
@@ -145,7 +149,7 @@
         width: 100%;
         height: 30px;
         border-bottom: 1px solid black;
-        background: mediumseagreen;
+        background: #00B4E0;
         overflow: hidden;
         position: relative;
     }

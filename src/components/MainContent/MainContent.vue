@@ -21,7 +21,8 @@
 
     .mainContent{
         width: 100%;
-        height: 550px;
+        height: calc(100% - 84px);
+        min-height: 570px;
     }
 
 </style>

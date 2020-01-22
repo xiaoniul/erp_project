@@ -68,8 +68,8 @@
                     backgroundRepeat: "repeat-x"
                 },
                 logo: require("../images/logo.png"),
-                username: 'supper',
-                password: 'supper',
+                username: '199170',
+                password: '123',
                 companyValue: '请选择',
                 companys: [{companyName: '请选择'}],
                 isError: '',
@@ -107,13 +107,11 @@
                     companyAccountId: this.companyUUID
                 }
                 let respUserInfo = await reqLogin(userInfo)
-                debugger
                 if(respUserInfo.statusCode == common.ok){
                     this.$store.dispatch('setUserName', this.username)
                     if(respUserInfo.data.isSupper==='yes')
                         this.$router.push('./supper')
                     if(respUserInfo.data.isSupper==='no') {
-                          debugger
                         Vue.prototype.GLOBAL.firstMenuList = respUserInfo.data.firstLevelMenu
                         window.location = './index.html'
                     }
@@ -145,7 +143,6 @@
         height: 100%;
         min-width: 1000px;
         min-height: 500px;
-        background: pink;
     }
 
     .loginPageAboveBack{

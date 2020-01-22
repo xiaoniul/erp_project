@@ -42,7 +42,7 @@
         width: 100%;
         height: 38px;
         background: url("./images/appnavbarbck.png") repeat-x;
-        min-width: 980px;
+        min-width: 1030px;
         position: relative;
     }
 

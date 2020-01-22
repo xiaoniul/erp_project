@@ -21,9 +21,12 @@
 
     .operate{
         float: left;
-        width: 1184px;
-        height: 550px;
+        width: calc(100% - 164px);
+        min-width: 866px;
+        height: 100%;
         margin-left: 4px;
+        border-left: 1px solid #898C95;
+        box-sizing: border-box;
     }
 
 </style>

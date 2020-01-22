@@ -3,6 +3,7 @@
         <SystemNavBar ref="systemNavBar"></SystemNavBar>
         <ApplicationNavBar></ApplicationNavBar>
         <MainContent></MainContent>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -10,11 +11,13 @@
     import SystemNavBar from '../../components/SystemNavBar/SystemNavBar.vue'
     import ApplicationNavBar from '../../components/ApplicationNavBar/ApplicationNavBar.vue'
     import MainContent from '../../components/MainContent/MainContent.vue'
+    import Footer from '../../components/Footer/Footer.vue'
     export default{
         components: {
             SystemNavBar,
             ApplicationNavBar,
-            MainContent
+            MainContent,
+            Footer
         },
         data() {
             return {
@@ -35,8 +38,8 @@
     body,html{
         width: 100%;
         height: 100%;
-        min-width: 1348px;
-        min-height: 720px;
+        min-width: 1030px;
+        min-height: 654px;
     }
 
     .index{

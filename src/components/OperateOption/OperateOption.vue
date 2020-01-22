@@ -13,8 +13,7 @@
 
     .operateOption{
         width: 100%;
-        height: 530px;
-        background: pink;
+        height: calc(100% - 20px);
     }
 
 </style>

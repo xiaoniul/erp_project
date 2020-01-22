@@ -7,7 +7,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from '../views/Home/Home.vue'
-import OperatorAuth from '../views/OperatorAuth/OperatorAuth.vue'
+import OperatorOptionMenu from '../views/OperatorOptionMenu/OperatorOptionMenu.vue'
 
 Vue.use(VueRouter)
 
@@ -19,7 +19,7 @@ export default new VueRouter({
         },
         {
             path: '/operatorAuth',
-            component: OperatorAuth
+            component: OperatorOptionMenu
         }
     ]
 })
